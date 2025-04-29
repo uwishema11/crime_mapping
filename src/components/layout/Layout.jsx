@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
-import HeaderDashboard from "./HeaderDashboard";
-import LeftSectionsDashboard from "./LeftSectionDashBoard";
-
-const DashboardLayout = ({ children }) => {
+const Layout = () => {
   return (
-    <div className="md:grid min-h-screen  w-full grid-cols-[auto_1fr] ">
-      <LeftSectionsDashboard />
-      <div className="flex bg-[#F4F4F4] s flex-col w-full overflow-x-hidden">
-        <HeaderDashboard />
-        <main className="flex rounded-md  hiddescrollbar flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 max-h-[90vh] overflow-y-scroll">
-          {children}
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4">
+          <Outlet />
         </main>
       </div>
     </div>
   );
 };
 
-export default DashboardLayout;
+export default Layout;

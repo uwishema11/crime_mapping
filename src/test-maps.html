@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Maps API Test</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Google Maps API Test</h2>
+    <div id="map"></div>
+
+    <script>
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+            v: "weekly"
+        });
+
+        let map;
+        async function initMap() {
+            try {
+                const { Map } = await google.maps.importLibrary("maps");
+                map = new Map(document.getElementById("map"), {
+                    center: { lat: 40.7128, lng: -74.0060 }, // New York coordinates
+                    zoom: 12
+                });
+                console.log("Map initialized successfully");
+            } catch (error) {
+                console.error("Error initializing map:", error);
+                document.getElementById("map").innerHTML = `
+                    <div style="padding: 20px; background-color: #ffebee; color: #c62828; border-radius: 4px;">
+                        <h3>Error Loading Map</h3>
+                        <p>${error.message}</p>
+                        <p>Please check your Google Maps API key configuration.</p>
+                    </div>
+                `;
+            }
+        }
+
+        initMap();
+    </script>
+</body>
+
+</html>
