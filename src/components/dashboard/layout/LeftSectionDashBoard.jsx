@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { LeftSideMenuData } from "./MenuData";
 
 function LeftSectionsDashboard() {

@@ -1,4 +1,4 @@
-import DashboardLayout from "./components/layout/Layout";
+import DashboardLayout from "./components/dashboard/layout/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./components/dashboard/Main";
 
