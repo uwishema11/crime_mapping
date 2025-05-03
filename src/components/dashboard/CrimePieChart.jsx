@@ -25,11 +25,11 @@ import {
 
 const crimeDataByMonth = {
   January: [
-    { category: "Theft", value: 120, fill: "hsl(var(--chart-1))" },
-    { category: "Assault", value: 80, fill: "hsl(var(--chart-2))" },
-    { category: "Burglary", value: 60, fill: "hsl(var(--chart-3))" },
-    { category: "Fraud", value: 90, fill: "hsl(var(--chart-4))" },
-    { category: "Other", value: 50, fill: "hsl(var(--chart-5))" },
+    { category: "Theft", value: 7, fill: "hsl(var(--chart-1))" },
+    { category: "Assault", value: 4, fill: "hsl(var(--chart-2))" },
+    { category: "Burglary", value: 2, fill: "hsl(var(--chart-3))" },
+    { category: "Fraud", value: 4, fill: "hsl(var(--chart-4))" },
+    { category: "Other", value: 3, fill: "hsl(var(--chart-5))" },
   ],
   February: [
     { category: "Theft", value: 100, fill: "hsl(var(--chart-1))" },
@@ -60,13 +60,6 @@ const crimeDataByMonth = {
     { category: "Other", value: 40, fill: "hsl(var(--chart-5))" },
   ],
 };
-const crimeData = [
-  { category: "Theft", value: 120, fill: "hsl(var(--chart-1))" },
-  { category: "Assault", value: 80, fill: "hsl(var(--chart-2))" },
-  { category: "Burglary", value: 60, fill: "hsl(var(--chart-3))" },
-  { category: "Fraud", value: 90, fill: "hsl(var(--chart-4))" },
-  { category: "Other", value: 50, fill: "hsl(var(--chart-5))" },
-];
 
 const chartConfig = {
   value: {
@@ -106,9 +99,11 @@ export function CrimePieChart() {
   }, [activeMonth]);
 
   return (
-    <Card className="flex flex-col w-[300px] h-[420px]">
+    <Card className="flex flex-col w-full max-w-sm h-auto text-gray-700 bg-white rounded-lg border-none">
       <CardHeader className="items-center pb-2">
-        <CardTitle className="text-base">Donut Pie Chart - Crimes</CardTitle>{" "}
+        <CardTitle className="text-base">
+          Donut Pie Chart - Monthly Crimes Report
+        </CardTitle>
         <CardDescription className="text-sm">
           January - June 2024
         </CardDescription>
@@ -140,7 +135,7 @@ export function CrimePieChart() {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="flex-1 pb-2">
+      <CardContent className="flex-1">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[200px]"

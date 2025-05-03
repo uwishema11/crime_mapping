@@ -8,9 +8,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Button } from "../ui/button";
+} from "../../ui/accordion";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +18,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+} from "../../ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 
 function HeaderDashboard() {
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
@@ -34,7 +34,7 @@ function HeaderDashboard() {
 
   return (
     <div>
-      <header className="flex bg-white mx-5 mt-2 rounded-[4px] items-center gap-4 px-4 lg:h-[60px] lg:px-6">
+      <header className="flex bg-white mx-5 mt-2 rounded-lg items-center gap-4 px-4 lg:h-[60px] lg:px-6">
         <Sheet>
           <SheetTrigger asChild>
             <Button
