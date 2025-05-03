@@ -16,6 +16,7 @@ const MapView = () => {
         { id: 2, lat: 51.51, lng: -0.1, type: 'assault', severity: 'high', description: 'Physical altercation' },
         { id: 3, lat: 51.52, lng: -0.11, type: 'vandalism', severity: 'low', description: 'Property damage' },
     ];
+    console.log(crimeData);
 
     return (
         <div className="h-full flex flex-col">
@@ -68,17 +69,19 @@ const MapView = () => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    {crimeData.map((crime) => (
-                        <Marker key={crime.id} position={[crime.lat, crime.lng]}>
-                            <Popup>
-                                <div className="p-2">
-                                    <h3 className="font-semibold">{crime.type}</h3>
-                                    <p className="text-sm">{crime.description}</p>
-                                    <p className="text-sm text-gray-500">Severity: {crime.severity}</p>
-                                </div>
-                            </Popup>
-                        </Marker>
-                    ))}
+                {crimeData&&(
+                        crimeData.map((crime) => (
+                            // <Marker key={crime.id} position={[crime.lat, crime.lng]}>
+                                
+                                    <div className="p-2">
+                                        <h3 className="font-semibold">{crime.type}</h3>
+                                        <p className="text-sm">{crime.description}</p>
+                                        <p className="text-sm text-gray-500">Severity: {crime.severity}</p>
+                                    </div>
+        
+                            // </Marker>
+                        ))
+                )}
                 </MapContainer>
             </div>
         </div>
