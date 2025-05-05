@@ -14,6 +14,7 @@ export const LeftSideMenuData = [
     icons: <LayoutDashboard size={16} />,
     type: ["admin", "manager", "member"],
   },
+
   {
     name: "Users",
     link: "/users",
@@ -36,6 +37,12 @@ export const LeftSideMenuData = [
     name: "Crimes",
     link: "/crimes",
     icons: <ArrowLeftRight size={16} />,
+    type: ["admin", "manager"],
+  },
+  {
+    name: "analytics",
+    link: "/analytics",
+    icons: <CheckCheck size={16} />,
     type: ["admin", "manager"],
   },
   {
