@@ -1,6 +1,6 @@
 import DashboardLayout from "./components/layout/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CategoriesPage from "./components/dashboard/CrimeCategories";
+import CrimeCategories from "./components/dashboard/CrimeCategories";
 
 import Main from "./components/dashboard/Main";
 
@@ -13,7 +13,7 @@ export default function App() {
         <DashboardLayout>
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/categories" element={<CrimeCategories />} />
           </Routes>
         </DashboardLayout>
       </BrowserRouter>
