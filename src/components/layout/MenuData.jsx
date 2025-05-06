@@ -23,7 +23,7 @@ export const LeftSideMenuData = [
   },
   {
     name: "Categories",
-    link: "/categories",
+    link: "/crime-categories",
     icons: <Flame size={16} />,
     type: ["admin", "manager"],
   },
