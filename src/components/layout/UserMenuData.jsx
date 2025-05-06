@@ -20,11 +20,6 @@ export const UserMenuData = [
     icons: <FileText size={16} />,
   },
   {
-    name: 'Submit Report',
-    link: '/user-dashboard/submit-report',
-    icons: <PlusCircle size={16} />,
-  },
-  {
     name: 'Categories',
     link: '/user-dashboard/categories',
     icons: <FolderTree size={16} />,

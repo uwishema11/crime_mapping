@@ -6,6 +6,7 @@ import { Toaster } from './components/ui/sonner';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/Protected';
 import Categories from './components/dashboard/Categories';
+import CrimeCategories from './components/dashboard/categories/CrimeCategories';
 import Main from './components/dashboard/Main';
 import Analytics from './components/dashboard/Analytics';
 import UserDashboard from './components/dashboard/UserDashboard';
@@ -16,6 +17,8 @@ import SubmitReport from './components/dashboard/SubmitReport';
 import CrimeMap from './components/dashboard/CrimeMap';
 import Notifications from './components/dashboard/Notifications';
 import UsersTable from './components/user/UserTable';
+import ReportsTable from './components/dashboard/ReportsTable';
+import ReportForm from './components/dashboard/ReportForm';
 
 export default function App() {
   return (
@@ -37,11 +40,69 @@ export default function App() {
         }}
       />
       <Routes>
-        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Admin/Manager Routes */}
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+              <DashboardLayout>
+                <ReportsTable />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports/create"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+              <DashboardLayout>
+                <ReportForm />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports/edit/:reportId"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+              <DashboardLayout>
+                <ReportForm />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-dashboard/reports"
+          element={
+            <ProtectedRoute allowedRoles={['USER']}>
+              <UserLayout>
+                <ReportsTable isUserView />
+              </UserLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-dashboard/reports/create"
+          element={
+            <ProtectedRoute allowedRoles={['USER']}>
+              <UserLayout>
+                <ReportForm />
+              </UserLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-dashboard/reports/edit/:reportId"
+          element={
+            <ProtectedRoute allowedRoles={['USER']}>
+              <UserLayout>
+                <ReportForm />
+              </UserLayout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/"
           element={
@@ -63,6 +124,26 @@ export default function App() {
           }
         />
         <Route
+          path="/crimes"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+              <DashboardLayout>
+                <Analytics />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+              <DashboardLayout>
+                <CrimeCategories />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/users"
           element={
             <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
@@ -78,36 +159,6 @@ export default function App() {
             <ProtectedRoute allowedRoles={['USER']}>
               <UserLayout>
                 <UserDashboard />
-              </UserLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user-dashboard/reports"
-          element={
-            <ProtectedRoute allowedRoles={['USER']}>
-              <UserLayout>
-                <UserReports />
-              </UserLayout>
-            </ProtectedRoute>
-          }
-        />
-        {/* <Route
-          path="/user-dashboard/users"
-          element={
-            <ProtectedRoute allowedRoles={['USER']}>
-              <UserLayout>
-                <UsersTable />
-              </UserLayout>
-            </ProtectedRoute>
-          }
-        /> */}
-        <Route
-          path="/user-dashboard/submit-report"
-          element={
-            <ProtectedRoute allowedRoles={['USER']}>
-              <UserLayout>
-                <SubmitReport />
               </UserLayout>
             </ProtectedRoute>
           }
@@ -142,8 +193,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Catch all route - redirect to appropriate dashboard */}
         <Route
           path="*"
           element={

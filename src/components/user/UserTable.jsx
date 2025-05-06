@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import UserForm from './UserForm';
+import UserForm from './userForm';
 import useUserStore from '@/store/user';
 import TableComponent from '../Table';
 import { toast } from 'sonner';

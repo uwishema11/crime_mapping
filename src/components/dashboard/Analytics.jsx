@@ -2,18 +2,17 @@ import React from 'react';
 import { BarChart2, TrendingUp, Users, AlertTriangle, Map } from 'lucide-react';
 
 const Analytics = () => {
-  // Mock data for charts and statistics
   const stats = [
     {
       title: 'Total Reports',
-      value: '1,234',
+      value: '70',
       change: '+12.5%',
       trend: 'up',
       icon: BarChart2,
     },
     {
       title: 'Active Cases',
-      value: '156',
+      value: '45',
       change: '-3.2%',
       trend: 'down',
       icon: AlertTriangle,
@@ -92,7 +91,11 @@ const Analytics = () => {
                   <div
                     className="bg-blue-600 h-2 rounded-full"
                     style={{
-                      width: `${(crime.count / Math.max(...crimeTypes.map((c) => c.count))) * 100}%`,
+                      width: `${
+                        (crime.count /
+                          Math.max(...crimeTypes.map((c) => c.count))) *
+                        100
+                      }%`,
                     }}
                   ></div>
                 </div>
@@ -115,7 +118,11 @@ const Analytics = () => {
                   <div
                     className="bg-green-600 h-2 rounded-full"
                     style={{
-                      width: `${(district.incidents / Math.max(...districts.map((d) => d.incidents))) * 100}%`,
+                      width: `${
+                        (district.incidents /
+                          Math.max(...districts.map((d) => d.incidents))) *
+                        100
+                      }%`,
                     }}
                   ></div>
                 </div>

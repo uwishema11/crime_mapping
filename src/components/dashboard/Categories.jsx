@@ -1,29 +1,30 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { FadeLoader } from 'react-spinners';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
+import useCategories from '@/store/useCrimeCategories';
 
 export default function Categories() {
-  const categories = [
-    {
-      id: 1,
-      name: 'Theft',
-      description: 'Crimes involving the unlawful taking of property',
-      crimeCount: 45,
-    },
-    {
-      id: 2,
-      name: 'Assault',
-      description: 'Physical attacks or threats of violence',
-      crimeCount: 23,
-    },
-    {
-      id: 3,
-      name: 'Vandalism',
-      description: 'Deliberate destruction or damage to property',
-      crimeCount: 17,
-    },
-  ];
+  const { categories, fetchCategories, loading, error, deleteCategory } =
+    useCategories();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  if (loading && categories.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <FadeLoader
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
