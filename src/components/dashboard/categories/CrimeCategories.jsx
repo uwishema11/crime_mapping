@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { FadeLoader } from 'react-spinners';
 import { Gavel, Trash2, Pencil } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -33,8 +35,17 @@ const CrimeCategories = () => {
     fetchCategories();
   }, [fetchCategories]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading)
+    return (
+      <div>
+        <FadeLoader
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
+
   if (categories.length === 0) return <div>No categories available</div>;
 
   const columns = [

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -7,7 +8,7 @@ const useCategories = create((set) => ({
   categories: [],
   loading: false,
   error: null,
-  formMode: 'add', // 'add' or 'edit'
+  formMode: 'add',
   setFormMode: (mode) => set({ formMode: mode }),
 
   fetchCategories: async () => {
@@ -30,6 +31,7 @@ const useCategories = create((set) => ({
         categories: [...state.categories, newCategory],
         loading: false,
       }));
+      toast('succfully');
       return response.data;
     } catch (error) {
       set({ error: error.message, loading: false });
@@ -40,16 +42,26 @@ const useCategories = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.put(`${apiUrl}/categories/${id}`, data);
+      console.log(response);
       const updatedCategory = response.data.data;
+      console.log(updatedCategory);
       set((state) => ({
         categories: state.categories.map((category) =>
           category.id === id ? updatedCategory : category
         ),
         loading: false,
       }));
+      console.log(response);
       return response.data;
     } catch (error) {
-      set({ error: error.message, loading: false });
+      console.log(error)
+      const errorMessage =
+        error?.response?.data?.message || 'Something went wrong!';
+      set({ error: errorMessage, loading: false });
+      return {
+        success: false,
+        message: errorMessage,
+      };
     }
   },
 }));

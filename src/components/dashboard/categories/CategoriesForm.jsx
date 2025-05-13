@@ -1,5 +1,5 @@
-'use client';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { categoryValidation } from '@/validations/categories';
 import { Button } from '@/components/ui/button';
@@ -14,14 +14,13 @@ import { Label } from '@/components/ui/label';
 import useCategories from '@/store/useCrimeCategories';
 
 export default function CategoriesForm({ mode, initialData, onClose }) {
-  const { addCategory, editCategory } = useCategories();
+  const { addCategory, editCategory, loading } = useCategories();
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     description: '',
   });
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     if (mode === 'edit' && initialData) {
@@ -36,13 +35,24 @@ export default function CategoriesForm({ mode, initialData, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // ✅ start loading
+
     try {
       const parsedData = categoryValidation.parse(formData);
       if (mode === 'add') {
-        await addCategory(parsedData);
-      } else if (mode === 'edit') {
-        await editCategory(formData.id, parsedData);
+        const response = await addCategory(parsedData);
+        if (response.data) {
+          toast.success(response.message);
+        }
+        else{
+          toast.error(response.message)
+        }
+      } else {
+        const response = await editCategory(formData.id, parsedData);
+        if (response.data) {
+          return toast.success(response.message);
+        } else {
+          return toast.error(response.message);
+        }
       }
       setErrors({});
       onClose();
@@ -56,8 +66,6 @@ export default function CategoriesForm({ mode, initialData, onClose }) {
         });
         setErrors(fieldErrors);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -111,7 +119,7 @@ export default function CategoriesForm({ mode, initialData, onClose }) {
             <p className="text-red-500 text-sm">{errors.description}</p>
           )}
         </div>
-        <SheetFooter className= 'mt-5 flex '>
+        <SheetFooter className="mt-5 flex ">
           <Button
             type="submit"
             className={`w-full py-2 px-4 bg-blue-600 text-white rounded-md ${
