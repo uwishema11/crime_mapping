@@ -1,5 +1,5 @@
 import React from "react";
-
+import ProtectedRoute from "../Protected";
 import HeaderDashboard from "./HeaderDashboard";
 import LeftSectionsDashboard from "./LeftSectionDashBoard";
 
