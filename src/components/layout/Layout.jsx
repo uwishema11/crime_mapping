@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
-import HeaderDashboard from "./HeaderDashboard";
-import LeftSectionsDashboard from "./LeftSectionDashBoard";
+import HeaderDashboard from './HeaderDashboard';
+import LeftSectionsDashboard from './LeftSectionDashBoard';
 
 const DashboardLayout = ({ children }) => {
   return (
     <div className="md:grid min-h-screen  w-full grid-cols-[auto_1fr] ">
+      <Toaster position="top-right" reverseOrder={false} />
       <LeftSectionsDashboard />
       <div className="flex bg-[#F4F4F4] s flex-col w-full overflow-x-hidden">
         <HeaderDashboard />
