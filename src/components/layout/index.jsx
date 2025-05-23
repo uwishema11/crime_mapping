@@ -1,9 +1,9 @@
-import DashboardLayout from "./components/layout/Layout";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./components/dashboard/Main";
-import Analytics from "./components/dashboard/Analytics";
+import DashboardLayout from './components/layout/Layout';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Main from './components/dashboard/Main';
+import Analytics from './components/dashboard/Analytics';
 
-import React from "react";
+import React from 'react';
 
 export default function Dashboard() {
   return (

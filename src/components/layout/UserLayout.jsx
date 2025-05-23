@@ -1,6 +1,6 @@
-import React from "react";
-import UserSidebar from "./UserSidebar";
-import HeaderDashboard from "./HeaderDashboard";
+import React from 'react';
+import UserSidebar from './UserSidebar';
+import HeaderDashboard from './HeaderDashboard';
 
 const UserLayout = ({ children }) => {
   return (

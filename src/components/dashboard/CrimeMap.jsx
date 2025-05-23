@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function CrimeMap() {
-  return (
-    <div>CrimeMap</div>
-  )
+  return <div>CrimeMap</div>;
 }

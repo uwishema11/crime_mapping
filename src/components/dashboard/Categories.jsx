@@ -1,26 +1,26 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 
 export default function Categories() {
   const categories = [
     {
       id: 1,
-      name: "Theft",
-      description: "Crimes involving the unlawful taking of property",
+      name: 'Theft',
+      description: 'Crimes involving the unlawful taking of property',
       crimeCount: 45,
     },
     {
       id: 2,
-      name: "Assault",
-      description: "Physical attacks or threats of violence",
+      name: 'Assault',
+      description: 'Physical attacks or threats of violence',
       crimeCount: 23,
     },
     {
       id: 3,
-      name: "Vandalism",
-      description: "Deliberate destruction or damage to property",
+      name: 'Vandalism',
+      description: 'Deliberate destruction or damage to property',
       crimeCount: 17,
     },
   ];

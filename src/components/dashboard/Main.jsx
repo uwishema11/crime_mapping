@@ -1,5 +1,5 @@
-import { CrimePieChart } from "../CrimePieChart";
-import { CrimeTable } from "../CrimeTable";
+import { CrimePieChart } from '../CrimePieChart';
+import { CrimeTable } from '../CrimeTable';
 
 export default function DashboardPage() {
   return (
