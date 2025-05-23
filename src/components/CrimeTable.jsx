@@ -5,12 +5,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 const recentReports = [
-  { location: "Downtown", category: "Robbery", time: "2 hours ago" },
-  { location: "Uptown", category: "Assault", time: "5 hours ago" },
-  { location: "West Side", category: "Theft", time: "1 day ago" },
+  { location: 'Downtown', category: 'Robbery', time: '2 hours ago' },
+  { location: 'Uptown', category: 'Assault', time: '5 hours ago' },
+  { location: 'West Side', category: 'Theft', time: '1 day ago' },
 ];
 
 export function CrimeTable() {

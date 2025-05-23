@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { CircleUser, Menu, Settings, LogOut } from "lucide-react";
-import { LeftSideMenuData } from "./MenuData";
+import { CircleUser, Menu, Settings, LogOut } from 'lucide-react';
+import { LeftSideMenuData } from './MenuData';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Button } from "../ui/button";
+} from '../ui/accordion';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +18,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+} from '../ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 
 function HeaderDashboard() {
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
@@ -29,7 +29,7 @@ function HeaderDashboard() {
   };
 
   const signOut = () => {
-    console.log("Logout clicked!");
+    console.log('Logout clicked!');
   };
 
   return (

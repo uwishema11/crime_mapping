@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { toast } from 'sonner';
 
 export default function SubmitReport() {
   const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    description: "",
-    location: "",
-    date: "",
-    time: "",
+    title: '',
+    category: '',
+    description: '',
+    location: '',
+    date: '',
+    time: '',
   });
 
   const handleChange = (e) => {
@@ -24,17 +24,17 @@ export default function SubmitReport() {
     e.preventDefault();
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success("Report submitted successfully");
+      toast.success('Report submitted successfully');
       setFormData({
-        title: "",
-        category: "",
-        description: "",
-        location: "",
-        date: "",
-        time: "",
+        title: '',
+        category: '',
+        description: '',
+        location: '',
+        date: '',
+        time: '',
       });
     } catch (error) {
-      toast.error("Failed to submit report. Please try again.");
+      toast.error('Failed to submit report. Please try again.');
     }
   };
 

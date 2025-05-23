@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -6,19 +6,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
-import { PlusCircle } from "lucide-react";
+} from '../ui/table';
+import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
+import { PlusCircle } from 'lucide-react';
 
 export default function UserReports() {
   const reports = [
     {
       id: 1,
-      title: "Suspicious Activity",
-      category: "Theft",
-      status: "Under Review",
-      date: "2024-03-15",
+      title: 'Suspicious Activity',
+      category: 'Theft',
+      status: 'Under Review',
+      date: '2024-03-15',
     },
   ];
 
@@ -53,11 +53,11 @@ export default function UserReports() {
                 <TableCell>
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
-                      report.status === "Under Review"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : report.status === "Resolved"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-blue-100 text-blue-800"
+                      report.status === 'Under Review'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : report.status === 'Resolved'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-blue-100 text-blue-800'
                     }`}
                   >
                     {report.status}

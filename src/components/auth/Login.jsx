@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import Cookies from "js-cookie";
+import { useState } from 'react';
+import { toast } from 'sonner';
+import Cookies from 'js-cookie';
 
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import useAuthStore from "../../store/user";
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import useAuthStore from '../../store/user';
 
-const userRole = Cookies.get("user");
+const userRole = Cookies.get('user');
 let user;
 
 if (userRole) {
@@ -17,8 +17,8 @@ if (userRole) {
 }
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login, loading, error, clearError } = useAuthStore();
 
@@ -29,12 +29,12 @@ const Login = () => {
     if (response.success === true) {
       const token = response.data?.token;
       const user = response.data?.user;
-      Cookies.set("user", JSON.stringify({ token, user }));
-      toast.success("Login successful");
-      if (user.role === "USER") {
-        return navigate("/user-dashboard");
+      Cookies.set('user', JSON.stringify({ token, user }));
+      toast.success('Login successful');
+      if (user.role === 'USER') {
+        return navigate('/user-dashboard');
       } else {
-        return navigate("/");
+        return navigate('/');
       }
     }
     return toast.error(`${response.message}`);
@@ -81,10 +81,10 @@ const Login = () => {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? 'Logging in...' : 'Login'}
         </button>
         <div className="text-center text-sm mt-4">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link to="/register" className="underline underline-offset-4">
             Sign up
           </Link>

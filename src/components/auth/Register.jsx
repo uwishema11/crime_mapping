@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../store/user";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/user';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-    phone_number: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+    phone_number: '',
   });
   const navigate = useNavigate();
   const { register, loading, error, clearError } = useAuthStore();
@@ -38,7 +38,7 @@ const Register = () => {
     console.log(response);
 
     if (response.success === true) {
-      console.log("registered successfully");
+      console.log('registered successfully');
 
       return toast.success(response.message);
     } else {
@@ -140,7 +140,7 @@ const Register = () => {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
         >
-          {loading ? "signing up..." : "sign up"}
+          {loading ? 'signing up...' : 'sign up'}
         </button>
         <div className="text-center text-sm mt-4">
           Already have an account?
