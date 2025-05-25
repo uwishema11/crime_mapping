@@ -92,7 +92,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/user-dashboard/users"
           element={
             <ProtectedRoute allowedRoles={['USER']}>
@@ -101,7 +101,7 @@ export default function App() {
               </UserLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/user-dashboard/submit-report"
           element={

@@ -130,7 +130,11 @@ const UsersTable = () => {
 
   const handleSearch = (text) => {
     setSearch(text);
-    fetchUsers({ filter, page, limit, search: text });
+    const timeoutId = setTimeout(() => {
+      fetchUsers({ filter, page, limit, search: text });
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   };
 
   const handleFilter = (fil) => {

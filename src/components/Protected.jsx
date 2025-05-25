@@ -27,14 +27,13 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
         const parsedUser = JSON.parse(userToken);
         const token = parsedUser.token;
         const response = await verifyToken(token);
+        console.log(response)
 
-        if (!response.success) {
-          console.log('Token verification failed:', response.message);
+        if (response.success !==true) {
           toast.error(
             response.message || 'Session expired. Please login again'
           );
-          navigate('/login');
-          return;
+           return navigate('/login');
         }
 
         if (

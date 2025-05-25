@@ -14,7 +14,6 @@ export const UserForm = ({ initialValues = {} }) => {
     closeUserForm,
     formMode,
     loaddingAdd,
-    loading,
     loaddingUpdate,
     error,
     register,
@@ -67,11 +66,14 @@ export const UserForm = ({ initialValues = {} }) => {
     }
   };
 
+  const handleCancel = () => {
+    setErrors({});
+    closeUserForm();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const parsedData = userSchema.parse(formData);
-      setErrors({});
       const formDataToSend = new FormData();
       formDataToSend.append('firstName', formData.firstName);
       formDataToSend.append('lastName', formData.lastName);
@@ -83,8 +85,11 @@ export const UserForm = ({ initialValues = {} }) => {
       }
 
       if (formMode === 'add') {
+        console.log(formMode);
         const response = await register(formDataToSend);
+        console.log(response);
         if (response.success === true) {
+          setErrors({});
           setFormData({
             firstName: '',
             lastName: '',
@@ -92,13 +97,11 @@ export const UserForm = ({ initialValues = {} }) => {
             password: '',
             confirm_password: '',
             role: 'USER',
-            image_url: undefined,
+            image_url: '',
           });
-          setPreviewUrl('');
-          toast.success(
-            'User registered successfully! Check your email to verify your account'
+          return toast.success(
+            'User registered successfully!check your email to verify your account'
           );
-          closeUserForm();
         } else {
           toast.error(response.message);
         }
@@ -108,45 +111,40 @@ export const UserForm = ({ initialValues = {} }) => {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
-            password: formData.password,
-            confirm_password: formData.confirm_password,
             image_url:
               formData.image_url instanceof File
                 ? undefined
                 : formData.image_url,
           };
-
           const response = await updateUser(formData.id, userData);
           if (response.data) {
-            toast.success(response.message);
-            closeUserForm();
+            return toast.success(response.message);
           } else {
-            toast.error(error);
+            return toast.error(error);
           }
         } else {
-          toast.error(error);
+          return toast.error(error);
         }
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            fieldErrors[err.path[0]] = err.message;
+        error.errors.forEach((error) => {
+          if (error.path[0]) {
+            fieldErrors[error.path[0]] = error.message;
           }
         });
         setErrors(fieldErrors);
-      } else {
-        toast.error('An unexpected error occurred.');
       }
     }
   };
+  const isLoading = formMode === 'add' ? loaddingAdd : loaddingUpdate;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end">
       <div
         className="absolute inset-0 bg-opacity-30"
-        onClick={closeUserForm}
+        onClick={handleCancel}
       ></div>
       <div className="relative w-full max-w-md h-full bg-white shadow-lg p-6 overflow-y-auto">
         <h2 className="text-xl font-bold mb-4 text-center">
@@ -267,16 +265,20 @@ export const UserForm = ({ initialValues = {} }) => {
           )}
           <button
             type="submit"
+            disabled={isLoading}
             className={`w-full py-2 px-4 bg-blue-600 text-white rounded-md ${
-              loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
             }`}
           >
-            {loading ? 'Loading...' : 'Submit'}
+            {isLoading ? 'Loading...' : 'Submit'}
           </button>
           <button
             type="button"
-            className="w-full py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-            onClick={closeUserForm}
+            disabled={isLoading}
+            className={`w-full py-2 px-4 bg-gray-500 text-white rounded-md ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-600'
+            }`}
+            onClick={handleCancel}
           >
             Cancel
           </button>

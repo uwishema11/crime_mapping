@@ -30,11 +30,6 @@ export const UserMenuData = [
     icons: <FolderTree size={16} />,
   },
   {
-    name: 'Users',
-    link: '/user-dashboard/users',
-    icons: <FolderTree size={16} />,
-  },
-  {
     name: 'Crime Map',
     link: '/user-dashboard/crime-map',
     icons: <Map size={16} />,
