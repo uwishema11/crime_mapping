@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const useAuthStore = create((set) => ({
   loading: false,
@@ -30,6 +31,7 @@ const useAuthStore = create((set) => ({
     }
   },
   logout: () => {
+    Cookies.remove('user');
     set({ isAuthenticated: false, isAdmin: false, loading: false });
   },
 }));

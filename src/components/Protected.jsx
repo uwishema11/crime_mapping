@@ -27,21 +27,17 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
         const parsedUser = JSON.parse(userToken);
         const token = parsedUser.token;
         const response = await verifyToken(token);
-        console.log(response)
 
-        if (response.success !==true) {
-          toast.error(
-            response.message || 'Session expired. Please login again'
-          );
-           return navigate('/login');
+        if (!response.success) {
+          toast.error(response.message || 'Session expired. Please login again');
+          Cookies.remove('user');
+          navigate('/login');
+          return;
         }
 
-        if (
-          allowedRoles.length > 0 &&
-          !allowedRoles.includes(response.user.role)
-        ) {
+        // Check if user has required role
+        if (allowedRoles.length > 0 && !allowedRoles.includes(response.user.role)) {
           toast.error("You don't have permission to access this page");
-          console.log(response.user.role);
           if (response.user.role === 'USER') {
             navigate('/user-dashboard');
           } else if (['ADMIN', 'MANAGER'].includes(response.user.role)) {
@@ -56,6 +52,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
       } catch (error) {
         console.error('Auth check error:', error);
         toast.error('Session error. Please login again');
+        Cookies.remove('user');
         navigate('/login');
       } finally {
         setIsLoading(false);
@@ -64,14 +61,6 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 
     checkAuth();
   }, [navigate, location.pathname, allowedRoles, verifyToken]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <FadeLoader color="#3B82F6" />
-      </div>
-    );
-  }
 
   if (!isAuthorized) {
     return null;

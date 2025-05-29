@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
+import { toast } from 'sonner';
+import useAuthStore from '../../store/auth';
 
 import { Button } from '../ui/button';
 import { LeftSideMenuData } from './MenuData';
@@ -9,6 +11,8 @@ function LeftSectionsDashboard() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const collapseTimeoutRef = useRef(null);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuthStore();
 
   const handleMouseLeave = () => {
     collapseTimeoutRef.current = setTimeout(() => {
@@ -28,8 +32,10 @@ function LeftSectionsDashboard() {
   const link2 = pathname.split('/').slice(0, 2).at(-1);
   const activeLink = linkOne?.length > 20 ? link2 : linkOne;
 
-  const signOut = () => {
-    console.log('Sign out clicked!');
+  const handleLogout = () => {
+    logout();
+    toast.success('Logged out successfully');
+    navigate('/login');
   };
 
   return (
@@ -88,13 +94,13 @@ function LeftSectionsDashboard() {
         <div className="w-[90%]">
           <Button
             size="sm"
-            onClick={signOut}
-            className={`flex items-center justify-center gap-2 w-full rounded-lg border border-[#F1F1F1] text-white bg-[#004080] hover:text-white transition-all duration-300 ${
+            onClick={handleLogout}
+            className={`flex items-center cursor-pointer justify-center gap-2 w-full rounded-lg border border-[#F1F1F1] text-white bg-[#004080] hover:text-white transition-all duration-300 ${
               isCollapsed ? 'justify-center' : 'p-3'
             }`}
           >
             <LogOut className="h-5 w-5" />
-            {!isCollapsed && <span>Logout</span>}
+            {!isCollapsed && <span>Logoutii</span>}
           </Button>
         </div>
       </div>
