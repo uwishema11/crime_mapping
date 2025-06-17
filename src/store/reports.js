@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const useReportsStore = create((set) => ({
   reports: [],
+  recentReports: [],
   loading: false,
+  pendingState: false,
+  totalPendingReports: 0,
+  totalNumOfReports: 0,
   filter: '',
   search: '',
   isFilterOpen: false,
@@ -63,11 +66,11 @@ const useReportsStore = create((set) => ({
           },
         }
       );
-      console.log(response.data);
 
       set({
         reports: response.data.data,
         totalReports: response.data.total,
+        totalNumOfReports: response.data.data.length,
         pagination: {
           page: response.data.page,
           limit: response.data.limit,
@@ -102,14 +105,13 @@ const useReportsStore = create((set) => ({
       if (search) queryParams.append('search', search);
 
       const response = await axios.get(
-        `${apiUrl}/reports/my-reports?${queryParams.toString()}`,
+        `${apiUrl}/reports/single-user/my-reports?${queryParams.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(response.data.data.data);
 
       set({
         reports: response.data.data.data,
@@ -132,6 +134,36 @@ const useReportsStore = create((set) => ({
         loading: false,
       });
       throw error;
+    }
+  },
+  fetchPendingReports: async () => {
+    set({ pendingState: true, error: false });
+    try {
+      const userCookie = Cookies.get('user');
+      if (!userCookie) throw new Error('No authentication token found');
+      const { token } = JSON.parse(userCookie);
+
+      const res = await axios.get(`${apiUrl}/reports/grouped/pending-status`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(`this is pending data`, res.data.data);
+      set({
+        pendingState: false,
+        error: false,
+        totalPendingReports: res.data.data.length,
+      });
+      console.log(res.data.data);
+      return res.data;
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || 'Failed to load data. Try again';
+      set({ loadingFetch: false, error: message });
+      return {
+        success: false,
+        message: message,
+      };
     }
   },
   createReport: async (reportData) => {
@@ -159,6 +191,7 @@ const useReportsStore = create((set) => ({
         totalReports: state.totalReports + 1,
         loading: false,
       }));
+      console.log('Report created successfully:', response.data);
       return response.data;
     } catch (error) {
       console.error(
@@ -211,6 +244,79 @@ const useReportsStore = create((set) => ({
         loading: false,
       });
       throw error;
+    }
+  },
+  updateReportStatus: async (reportId, status) => {
+    set({ loading: true, error: null });
+    try {
+      const userCookie = Cookies.get('user');
+      if (!userCookie) {
+        throw new Error('No authentication token found');
+      }
+      const { token } = JSON.parse(userCookie);
+      const response = await axios.patch(
+        `${apiUrl}/reports/update/status/${reportId}`,
+        { status }, // status should be a string, e.g., "RESOLVED"
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      set((state) => ({
+        reports: state.reports.map((report) =>
+          report.id === reportId
+            ? { ...report, status: response.data.data.updatedReport.status }
+            : report
+        ),
+        loading: false,
+      }));
+      return response.data;
+    } catch (error) {
+      set({
+        error:
+          error.response?.data?.message || 'Failed to update report status',
+        loading: false,
+      });
+      throw error;
+    }
+  },
+
+  fetchRecentReports: async () => {
+    try {
+      const useCookie = Cookies.get('user');
+      if (!useCookie) {
+        set({ loadingFetch: false, error: 'No authentication token found' });
+      }
+      const { token } = JSON.parse(useCookie);
+      set({ loadingFetch: true, error: null });
+      const response = await axios.get(`${apiUrl}/reports/recents`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({
+        recentReports: response.data.data,
+        loadingFetch: false,
+        error: null,
+      });
+      return {
+        success: true,
+        message: 'Recent reports fetched successfully',
+        data: response.data.data,
+      };
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        'Failed to load users! Check your network';
+      set({ loadingFetch: false, error: message });
+      return {
+        success: false,
+        message: message,
+        data: [],
+      };
     }
   },
 

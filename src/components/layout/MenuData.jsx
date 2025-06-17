@@ -51,10 +51,4 @@ export const LeftSideMenuData = [
     icons: <ListTodo size={16} />,
     type: ['ADMIN', 'MANAGER'],
   },
-  {
-    name: 'Notifications',
-    link: '/notifications',
-    icons: <CheckCheck size={16} />,
-    type: ['ADMIN', 'MANAGER'],
-  },
 ];

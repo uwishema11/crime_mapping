@@ -4,14 +4,6 @@ import Cookies from 'js-cookie';
 import UserForm from '@/components/user/userForm';
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const userToken = Cookies.get('user');
-let token;
-
-if (userToken) {
-  const parsedUser = JSON.parse(userToken);
-  const user = parsedUser.token;
-  token = user;
-}
 
 const useUserStore = create((set) => ({
   users: [],
@@ -96,6 +88,11 @@ const useUserStore = create((set) => ({
   },
 
   fetchUsers: async (userParams) => {
+    const useCookie = Cookies.get('user');
+    if (!useCookie) {
+      set({ loadingFetch: false, error: 'No authentication token found' });
+    }
+    const { token } = JSON.parse(useCookie);
     const { filter, search, page, limit } = userParams;
     set({ loadingFetch: true, error: null });
     try {
@@ -114,8 +111,10 @@ const useUserStore = create((set) => ({
         error: null,
         loadingFetch: false,
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
+      console.log(error);
       const message =
         error?.response?.data?.message ||
         'Failed to load users! Check your network';
