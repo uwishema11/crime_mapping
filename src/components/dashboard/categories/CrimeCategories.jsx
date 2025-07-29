@@ -79,6 +79,7 @@ const CrimeCategories = () => {
       cell: ({ row }) => <div className="font-medium">{row.original.id}</div>,
     },
     { accessorKey: 'name', header: 'Category Name' },
+    { accessorKey: 'category_author', header: 'User' },
     { accessorKey: 'description', header: 'Description' },
     {
       accessorKey: 'status',

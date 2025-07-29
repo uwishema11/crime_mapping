@@ -1,5 +1,7 @@
 import React from 'react';
 
+import MapView from './components/dashboard/crimes/crimeMap';
+
 import DashboardLayout from './components/layout/Layout';
 import UserLayout from './components/layout/UserLayout';
 import { Toaster } from './components/ui/sonner';
@@ -14,11 +16,12 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import UserReports from './components/dashboard/UserReports';
 import SubmitReport from './components/dashboard/SubmitReport';
-import CrimeMap from './components/dashboard/CrimeMap';
-import Notifications from './components/dashboard/Notifications';
+import CrimeMap from './components/dashboard/crimes/crimeMap';
+import Notifications from './components/dashboard/notifications/Notifications';
 import UsersTable from './components/user/UserTable';
 import ReportsTable from './components/dashboard/ReportsTable';
 import ReportForm from './components/dashboard/ReportForm';
+import CrimesTable from './components/dashboard/crimes/CrimesTable';
 
 export default function App() {
   return (
@@ -46,7 +49,7 @@ export default function App() {
         <Route
           path="/reports"
           element={
-            <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
+            <ProtectedRoute allowedRoles={['ADMIN','MANAGER']}>
               <DashboardLayout>
                 <ReportsTable />
               </DashboardLayout>
@@ -128,7 +131,7 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']}>
               <DashboardLayout>
-                <Analytics />
+                <CrimesTable />
               </DashboardLayout>
             </ProtectedRoute>
           }
@@ -176,11 +179,9 @@ export default function App() {
         <Route
           path="/user-dashboard/crime-map"
           element={
-            <ProtectedRoute allowedRoles={['USER']}>
-              <UserLayout>
-                <CrimeMap />
-              </UserLayout>
-            </ProtectedRoute>
+            <UserLayout>
+              <MapView />
+            </UserLayout>
           }
         />
         <Route

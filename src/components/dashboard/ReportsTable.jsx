@@ -45,8 +45,6 @@ const ReportsTable = ({ isUserView = false }) => {
     fetchUserReports,
     deleteReport,
   } = useReportsStore();
-
-  // Initial fetch
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -202,49 +200,76 @@ const ReportsTable = ({ isUserView = false }) => {
     {
       header: 'Status',
       accessorKey: 'status',
-      cell: ({ getValue }) => {
-        const status = getValue();
+      cell: ({ row }) => {
+        const { id, status } = row.original;
+        const [selectedStatus, setSelectedStatus] = useState(status);
+        const [loading, setLoading] = useState(false);
+        const statusOptions = [
+          'PENDING',
+          'UNDER_REVIEW',
+          'RESOLVED',
+          'REJECTED',
+        ];
+
+        const handleStatusChange = async (e) => {
+          const newStatus = e.target.value;
+          setSelectedStatus(newStatus);
+          setLoading(true);
+          try {
+            await useReportsStore.getState().updateReportStatus(id, newStatus);
+            toast.success('Status updated');
+          } catch (error) {
+            toast.error('Failed to update status');
+            setSelectedStatus(status);
+          } finally {
+            setLoading(false);
+          }
+        };
+
         return (
-          <span
-            className={`px-2 py-1 rounded-full text-xs ${
-              status === 'pending'
+          <select
+            value={selectedStatus}
+            onChange={handleStatusChange}
+            disabled={loading}
+            className={`px-2 py-1 text-xs rounded-full ${
+              selectedStatus === 'PENDING'
                 ? 'bg-yellow-100 text-yellow-800'
-                : status === 'resolved'
+                : selectedStatus === 'RESOLVED'
                   ? 'bg-green-100 text-green-800'
                   : 'bg-blue-100 text-blue-800'
             }`}
           >
-            {status}
-          </span>
+            {statusOptions.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
         );
       },
     },
-    {
-      header: 'Date Reported',
-      accessorKey: 'createdAt',
-      cell: ({ getValue }) => format(new Date(getValue()), 'MMM dd, yyyy'),
-    },
-    {
-      header: 'Actions',
-      cell: ({ row }) => (
-        <div className="flex gap-2">
-          <button
-            className="p-2 text-blue-600 hover:bg-gray-100 rounded-full"
-            onClick={() => handleEdit(row.original)}
-            aria-label="Edit"
-          >
-            <PenLine className="w-5 h-5" />
-          </button>
-          <button
-            className="p-2 text-red-600 hover:bg-gray-100 rounded-full"
-            onClick={() => handleDelete(row.original.id)}
-            aria-label="Delete"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
-        </div>
-      ),
-    },
+
+    // {
+    //   header: 'Actions',
+    //   cell: ({ row }) => (
+    //     <div className="flex gap-2">
+    //       <button
+    //         className="p-2 text-blue-600 hover:bg-gray-100 rounded-full"
+    //         onClick={() => openReportForm('edit', row.original)}
+    //         aria-label="Edit"
+    //       >
+    //         <PenLine className="w-5 h-5" />
+    //       </button>
+    //       <button
+    //         className="p-2 text-red-600 hover:bg-gray-100 rounded-full"
+    //         onClick={() => handleDelete(row.original.id)}
+    //         aria-label="Delete"
+    //       >
+    //         <Trash2 className="w-5 h-5" />
+    //       </button>
+    //     </div>
+    //   ),
+    // },
   ];
   const handlePageChange = async (newPage) => {
     if (newPage < 1 || newPage > pagination.totalPages) return;
@@ -351,6 +376,7 @@ const ReportsTable = ({ isUserView = false }) => {
                   {option}
                 </option>
               ))}
+              w
             </select>
           </div>
           <div className="flex items-center gap-4">

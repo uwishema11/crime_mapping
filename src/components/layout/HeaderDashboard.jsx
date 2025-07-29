@@ -87,8 +87,12 @@ function HeaderDashboard() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-[300px] bg-white border border-gray-200 shadow-lg"
+            className="z-[100] w-[300px] bg-white border border-gray-200 shadow-lg"
           >
+            {/* <DropdownMenuContent
+            align="end"
+            className="w-[300px] bg-white border border-gray-200 shadow-lg"
+          > */}
             <DropdownMenuLabel className="flex flex-col items-center text-center px-2 py-2">
               <Avatar className="h-10 w-10 rounded-full bg-gray-200 text-blue-600 font-semibold flex items-center justify-center">
                 <AvatarImage

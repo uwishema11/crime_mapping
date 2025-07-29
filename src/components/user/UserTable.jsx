@@ -39,6 +39,7 @@ const UsersTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetchUsers({ limit, page, search, filter });
+      console.log(result)
       if (!result.success) {
         toast.error(result.message);
       }
@@ -75,14 +76,16 @@ const UsersTable = () => {
         const isValidImg = imgUrl && imgUrl.trim() !== '';
 
         return (
-          <img
-            src={isValidImg ? imgUrl : fallbackImg}
-            alt="user profile"
-            className="w-13 h-13 p-2 object-cover rounded-full"
-            onError={(e) => {
-              e.target.src = fallbackImg;
-            }}
-          />
+          <div className="w-10 h-10 overflow-hidden rounded-full">
+            <img
+              src={isValidImg ? imgUrl : fallbackImg}
+              alt="user profile"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = fallbackImg;
+              }}
+            />
+          </div>
         );
       },
     },

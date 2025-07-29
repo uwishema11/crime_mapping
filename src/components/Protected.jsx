@@ -27,8 +27,9 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
         const parsedUser = JSON.parse(userToken);
         const token = parsedUser.token;
         const response = await verifyToken(token);
+        console.log(response)
 
-        if (!response.success) {
+        if (response.success!==true) {
           toast.error(response.message || 'Session expired. Please login again');
           Cookies.remove('user');
           navigate('/login');

@@ -1,3 +1,6 @@
+import React from 'react';
+import { useEffect, useState } from 'react';
+
 import {
   Table,
   TableBody,
@@ -6,14 +9,39 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const recentReports = [
-  { location: 'Downtown', category: 'Robbery', time: '2 hours ago' },
-  { location: 'Uptown', category: 'Assault', time: '5 hours ago' },
-  { location: 'West Side', category: 'Theft', time: '1 day ago' },
-];
+import { FadeLoader } from 'react-spinners';
+import useReportsStore from '@/store/reports';
 
 export function CrimeTable() {
+  const { fetchRecentReports, loadingFetch, recentReports } = useReportsStore();
+
+  useEffect(() => {
+    fetchRecentReports();
+  }, []);
+
+  if (loadingFetch) {
+    return (
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold mb-2">Recent Reports</h2>
+        <div className="flex items-center justify-center h-screen">
+          <FadeLoader
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </div>
+    );
+  }
+  if (!recentReports || recentReports.length === 0) {
+    console.log(recentReports);
+    return (
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold mb-2">Recent Reports</h2>
+        <p className="text-gray-500">No recent reports available.</p>
+      </div>
+    );
+  }
   return (
     <div className="mt-6">
       <h2 className="text-lg font-semibold mb-2">Recent Reports</h2>
@@ -21,16 +49,24 @@ export function CrimeTable() {
         <TableHeader>
           <TableRow>
             <TableHead>Location</TableHead>
+            <TableHead>Crime</TableHead>
+            <TableHead>Victim</TableHead>
+            <TableHead>Desscription</TableHead>
             <TableHead>Category</TableHead>
-            <TableHead>Time</TableHead>
+            <TableHead>Incident-Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {recentReports.map((report, i) => (
             <TableRow key={i}>
               <TableCell>{report.location}</TableCell>
-              <TableCell>{report.category}</TableCell>
-              <TableCell>{report.time}</TableCell>
+              <TableCell>{report.crimeName}</TableCell>
+              <TableCell>{report.userId}</TableCell>
+              <TableCell>{report.description}</TableCell>
+              <TableCell>{report.categoryName}</TableCell>
+              <TableCell>
+                {new Date(report.incidentDate).toLocaleDateString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

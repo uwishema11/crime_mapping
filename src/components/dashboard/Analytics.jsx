@@ -1,11 +1,48 @@
 import React from 'react';
 import { BarChart2, TrendingUp, Users, AlertTriangle, Map } from 'lucide-react';
+import { useCrime } from '@/store/crime';
+import useReportsStore from '@/store/reports';
 
 const Analytics = () => {
+  const { fetchReports, fetchPendingReports, pendingState, totalNumOfReports } =
+    useReportsStore();
+  const [crimeTypes, setCrimeTypes] = React.useState([]);
+  const [districts, setDistricts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const { fetchGroupedByLocation, fetchGroupedByName } = useCrime();
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const locationRes = await fetchGroupedByLocation();
+      if (locationRes?.success) {
+        setDistricts(
+          locationRes.data.map((d) => ({
+            name: d.location,
+            incidents: d.count,
+          }))
+        );
+      }
+      const crimeRes = await fetchGroupedByName();
+      if (crimeRes.success === true) {
+        setCrimeTypes(
+          crimeRes.data.map((c) => ({
+            type: c.crime_name,
+            count: c.count,
+          }))
+        );
+      }
+
+      setLoading(false);
+    };
+    fetchData();
+  }, [fetchGroupedByLocation, fetchGroupedByName]);
+
   const stats = [
     {
       title: 'Total Reports',
-      value: '70',
+      value: totalNumOfReports,
       change: '+12.5%',
       trend: 'up',
       icon: BarChart2,
@@ -19,27 +56,9 @@ const Analytics = () => {
     },
   ];
 
-  const crimeTypes = [
-    { type: 'Theft', count: 450 },
-    { type: 'Assault', count: 280 },
-    { type: 'Vandalism', count: 320 },
-    { type: 'Burglary', count: 190 },
-    { type: 'Other', count: 160 },
-  ];
-
-  const districts = [
-    { name: 'Downtown', incidents: 320 },
-    { name: 'West District', incidents: 280 },
-    { name: 'East District', incidents: 240 },
-    { name: 'North District', incidents: 190 },
-    { name: 'South District', incidents: 170 },
-  ];
-
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Analytics Dashboard</h1>
-
-      {/* Stats Grid */}
+      <h1 className="text-2xl font-semibold">Analytics</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -75,7 +94,6 @@ const Analytics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Crime Types Chart */}
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-lg font-semibold mb-4">
             Crime Types Distribution
@@ -103,10 +121,8 @@ const Analytics = () => {
             ))}
           </div>
         </div>
-
-        {/* Districts Chart */}
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h2 className="text-lg font-semibold mb-4">Incidents by District</h2>
+          <h2 className="text-lg font-semibold mb-4">Incidents by Location</h2>
           <div className="space-y-4">
             {districts.map((district, index) => (
               <div key={index}>
