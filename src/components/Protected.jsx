@@ -18,7 +18,6 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
       const userToken = Cookies.get('user');
 
       if (!userToken) {
-        toast.error('Please login to access this page');
         navigate('/login', { state: { from: location.pathname } });
         return;
       }

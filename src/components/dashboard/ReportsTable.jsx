@@ -112,7 +112,7 @@ const ReportsTable = ({ isUserView = false }) => {
   if (isInitialLoad && loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <FadeLoader color="#3B82F6" />
+        <FadeLoader color="#3B82F6" />  
       </div>
     );
   }
