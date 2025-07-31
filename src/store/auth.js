@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const useAuthStore = create((set) => ({
   loading: false,
   isAuthenticated: false,
@@ -10,19 +12,17 @@ const useAuthStore = create((set) => ({
   verifyToken: async (data) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(
-        'http://localhost:4000/auth/verify-token',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${data}`,
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/auth/verify-token`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${data}`,
+        },
+      });
       return response.data;
     } catch (error) {
       const errorMessage =
-        error?.response?.data?.message || 'Something went wrong!';
+        'something went wrong! check your internet and try again';
+      console.log(error?.response?.data?.message);
       set({ loading: false, error: errorMessage });
       return {
         success: false,

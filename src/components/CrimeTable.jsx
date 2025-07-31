@@ -26,6 +26,7 @@ export function CrimeTable() {
         <div className="flex items-center justify-center h-screen">
           <FadeLoader
             size={20}
+            color="#3B82F6"
             aria-label="Loading Spinner"
             data-testid="loader"
           />

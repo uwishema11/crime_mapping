@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { FadeLoader } from 'react-spinners';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import {
   PieChart,
@@ -42,12 +43,21 @@ export default function UserDashboard() {
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-center space-y-2">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600 border-opacity-50"></div>
-          <p className="text-gray-500 text-sm">Loading your dashboard...</p>
-        </div>
+      <div className="flex items-center justify-center h-screen">
+        <FadeLoader
+          size={20}
+          color="#3B82F6"
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+        <p className="text-gray-500 text-sm">Loading your dashboard...</p>
       </div>
+      // <div className="h-screen flex items-center justify-center">
+      //   <div className="text-center space-y-2">
+      //     <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600 border-opacity-50"></div>
+      //     <p className="text-gray-500 text-sm">Loading your dashboard...</p>
+      //   </div>
+      // </div>
     );
   }
   if (error) {
